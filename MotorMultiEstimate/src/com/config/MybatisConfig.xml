@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- JDBC properties 등록 -->
+	<properties resource="com/config/jdbc.properties" />
+	<typeAliases>
+		<typeAlias type="com.dto.CarDTO" alias="CarDTO" />
+		<typeAlias type="com.dto.UserDTO" alias="UserDTO" />
+		<typeAlias type="com.dto.SellerDTO" alias="SellerDTO" />
+	
+	</typeAliases>
+	
+	
+	<environments default="development">
+	
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			
+			<dataSource type="POOLED">
+				<property name="driver" value="${db.driver}"/>
+				<property name="url" value="${db.url}"/>
+				<property name="username" value="${db.username}"/>
+				<property name="password" value="${db.password}"/>
+
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="com/config/UserMapper.xml" />
+		<mapper resource="com/config/SellerMapper.xml" />
+	
+	</mappers>
+</configuration>

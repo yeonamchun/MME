@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SellerMapper" >
+
+<insert id="sellerJoin"  parameterType="SellerDTO">
+
+	INSERT INTO SELLER_INFO (
+		seller_num, 
+		seller_name, 
+		seller_post, 
+		seller_address1, 
+		seller_address2, 
+		seller_product_type, 
+		seller_product_quantity
+		)
+	VALUES (
+		#{seller_num}, 
+		#{seller_name}, 
+		#{seller_post}, 
+		#{seller_address1}, 
+		#{seller_address2}, 
+		#{seller_product_type}, 
+		#{seller_product_quantity}
+		)
+
+</insert>
+
+<select id="checkSellernum" resultType="SellerDTO" parameterType="string">
+
+	SELECT 
+		seller_num, 
+		seller_name, 
+		seller_post, 
+		seller_address1, 
+		seller_address2, 
+		seller_product_type, 
+		seller_product_quantity
+	FROM SELLER_INFO
+	WHERE seller_num = #{seller_num}
+
+</select>
+
+
+
+
+
+</mapper>
