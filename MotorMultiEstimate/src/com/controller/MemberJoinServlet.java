@@ -51,7 +51,7 @@ public class MemberJoinServlet extends HttpServlet {
         
         MemberService service = new MemberService();
         
-        if(seller_check.equals("0"))
+        if(seller_check.equals("0")) // 일반 사용자
         {
         	int checkNum = service.memberJoin(uDTO);
         	if(checkNum > 0)
@@ -66,7 +66,7 @@ public class MemberJoinServlet extends HttpServlet {
         		nextPage = "mainpage/main.jsp";
         	}
         }
-        else
+        else	// 사업자
         {
         	SellerService sService = new SellerService();
         	
@@ -93,6 +93,20 @@ public class MemberJoinServlet extends HttpServlet {
         	{
         		request.setAttribute("alert", "Seller 저장 완료 ");	
         		request.setAttribute("title", "Seller 페이지");
+        		
+        		uDTO.setUser_pw(null);
+        		
+        		
+    			if(seller_check.equals("0")) // 일반 사용자
+                {
+    				request.setAttribute("uDTO", uDTO);
+        		}
+        		else	// 사업자
+        		{
+        			request.setAttribute("uDTO", uDTO);
+        			request.setAttribute("sDTO", sDTO);
+        		}
+        		
         		nextPage = "mainpage/memberinfo.jsp";
         	}
         	else

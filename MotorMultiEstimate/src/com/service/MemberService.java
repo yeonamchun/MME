@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -70,6 +71,25 @@ public class MemberService
 		{
 			MemberDAO dao = new MemberDAO();
 			result = dao.checkUseralias(session, user_alias);
+		}
+		finally
+		{
+			session.close();
+		}
+		
+		return result;
+	}
+
+	public UserDTO login(HashMap<String, String> param) 
+	{
+		SqlSession session = JDBCSessionFactory.getSession();
+		
+		UserDTO result = null;
+		
+		try
+		{
+			MemberDAO dao = new MemberDAO();
+			result = dao.login(session, param);
 		}
 		finally
 		{

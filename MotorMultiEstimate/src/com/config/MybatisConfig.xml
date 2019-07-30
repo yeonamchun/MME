@@ -7,6 +7,7 @@
 		<typeAlias type="com.dto.CarDTO" alias="CarDTO" />
 		<typeAlias type="com.dto.UserDTO" alias="UserDTO" />
 		<typeAlias type="com.dto.SellerDTO" alias="SellerDTO" />
+		<typeAlias type="com.dto.MgmtDTO" alias="MgmtDTO" />
 	
 	</typeAliases>
 	
@@ -28,6 +29,7 @@
 	<mappers>
 		<mapper resource="com/config/UserMapper.xml" />
 		<mapper resource="com/config/SellerMapper.xml" />
+		<mapper resource="com/config/MgmtMapper.xml" />
 	
 	</mappers>
 </configuration>

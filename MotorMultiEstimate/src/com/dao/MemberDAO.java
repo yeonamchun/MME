@@ -1,5 +1,7 @@
 package com.dao;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.dto.UserDTO;
@@ -19,6 +21,10 @@ public class MemberDAO
 	public UserDTO checkUseralias(SqlSession session, String user_alias)
 	{
 		return session.selectOne("UserMapper.checkUseralias", user_alias);
+	}
+
+	public UserDTO login(SqlSession session, HashMap<String, String> param) {
+		return session.selectOne("UserMapper.login", param);
 	}
 
 }

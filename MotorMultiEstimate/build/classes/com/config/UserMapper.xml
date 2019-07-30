@@ -74,7 +74,25 @@
 
 </select>
 
+<select id="login" resultType="UserDTO" parameterType="hashmap">
 
+	SELECT 
+		user_id, 
+		user_pw, 
+		user_alias, 
+		user_name, 
+		user_mobile1, 
+		user_mobile2, 
+		user_mobile3, 
+		user_address, 
+		user_brand, 
+		seller_num, 
+		manager_code,
+		cre_dt
+	FROM USER_INFO
+	WHERE user_id = #{user_id}
+	AND user_pw = #{user_pw}
+</select>
 
 
 

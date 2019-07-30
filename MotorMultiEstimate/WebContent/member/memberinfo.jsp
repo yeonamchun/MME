@@ -26,6 +26,9 @@ var idAjaxCheck = false;
 var aliasAjaxCheck = false;
 var sellerAjaxCheck = false;
 
+var util = new Util();
+
+
 $(document).ready(function(){
 	
 	$("#idoverlap").on("click",function()
@@ -33,29 +36,20 @@ $(document).ready(function(){
 		var userid = $("#user_id").val();
 		if(userid.length > 0)
 		{
-			$.ajax({
-				method:"post",
-				url:"MemberUtil",
-				data:{opt:1, user_id:userid},
-				dataType:"text", 
-				success:function(_data, _status, _xhr)
+			
+			util.getHttp("post","MemberUtil", "opt=1&user_id="+userid, "text", function (data){
+				if(data == "true")
 				{
-					if(_data == "true")
-					{
-						alert("이미 있는 아이디 입니다.");
-						$("#user_id").val("");
-					}
-					else
-					{
-						alert("사용 가능한 아이디 입니다.");
-						idAjaxCheck = true;
-					}
-				},
-				error:function(_xhr, _status, _error){
-					console.log("ERROR : "+_status);
-					console.log("ERROR : "+_error);
+					alert("이미 있는 아이디 입니다.");
+					$("#user_id").val("");
+				}
+				else
+				{
+					alert("사용 가능한 아이디 입니다.");
+					idAjaxCheck = true;
 				}
 			});
+				
 		}
 		
 	});
@@ -279,7 +273,7 @@ $(document).ready(function(){
 <form name="userinfoform" id="userinfoform" action="" method="">
 <table class="userjoininfo">
 	<tr>
-		<td style="text-align:right;width:180px;">아이디&nbsp;:&nbsp;&nbsp;</td><td><input type="text" name="user_id" id="user_id" value="" />&nbsp;<input type="button" id="idoverlap" value="중복체크" /></td>
+		<td style="text-align:right;width:180px;">아이디&nbsp;:&nbsp;&nbsp;</td><td><input type="text" name="user_id" id="user_id" value="${uDTO.user_id}" readonly />&nbsp;<input type="button" id="idoverlap" value="중복체크" /></td>
 	</tr>
 	<tr>
 		<td style="text-align:right;width:180px;">암호&nbsp;:&nbsp;&nbsp;</td><td><input type="password" name="user_pw" id="user_pw" value="" /></td>
@@ -288,17 +282,17 @@ $(document).ready(function(){
 		<td style="text-align:right;width:180px;">암호 확인&nbsp;:&nbsp;&nbsp;</td><td><input type="password" id="user_pw_check" value="" /></td>
 	</tr>
 	<tr>
-		<td style="text-align:right;width:180px;">이름&nbsp;:&nbsp;&nbsp;</td><td><input type="text" name="user_name" id="user_name" value="" /></td>
+		<td style="text-align:right;width:180px;">이름&nbsp;:&nbsp;&nbsp;</td><td><input type="text" name="user_name" id="user_name" value="${uDTO.user_name}" /></td>
 	</tr>
 	<tr>
-		<td style="text-align:right;width:180px;">닉네임&nbsp;:&nbsp;&nbsp;</td><td><input type="text" id="user_alias" name="user_alias" value="" />&nbsp;<input type="button" id="aliasoverlap" value="중복체크" /></td>
+		<td style="text-align:right;width:180px;">닉네임&nbsp;:&nbsp;&nbsp;</td><td><input type="text" id="user_alias" name="user_alias" value="${uDTO.user_alias}" />&nbsp;<input type="button" id="aliasoverlap" value="중복체크" /></td>
 	</tr>
 	<tr>
 		<td style="text-align:right;width:180px;">전화번호&nbsp;:&nbsp;&nbsp;</td>
 		<td>
-			<input type="text" name="user_mobile1" id="user_mobile1" value="" size="3" maxlength="3" />
-			-<input type="text" name="user_mobile2" id="user_mobile2" value="" size="5" maxlength="4" />
-			-<input type="text" name="user_mobile3" id="user_mobile3" value="" size="5" maxlength="4" />
+			<input type="text" name="user_mobile1" id="user_mobile1" value="${uDTO.user_mobile1}" size="3" maxlength="3" />
+			-<input type="text" name="user_mobile2" id="user_mobile2" value="${uDTO.user_mobile2}" size="5" maxlength="4" />
+			-<input type="text" name="user_mobile3" id="user_mobile3" value="${uDTO.user_mobile3}" size="5" maxlength="4" />
 		</td>
 	</tr>
 	
@@ -313,7 +307,15 @@ $(document).ready(function(){
 				
 				$(document).ready(function() {
 					$.each(orgArea,function(key,value){
-						mesgArea += "<option value='"+ key+"'>"+ value+"</option>";
+						if(${uDTO.user_address} == key)
+						{
+							mesgArea += "<option value='"+ key+"' selected>"+ value+"</option>";
+						}
+						else
+						{
+							mesgArea += "<option value='"+ key+"'>"+ value+"</option>";
+						}
+						
 				   	});
 					$("#user_address").html(mesgArea);
 				});
@@ -332,7 +334,15 @@ $(document).ready(function(){
 				
 				$(document).ready(function() {
 					$.each(orgBrand,function(key1,value2){
-						mesgBrand += "<option value='"+ key1+"'>"+ value2+"</option>";
+						if(${uDTO.user_brand} == key1)
+						{
+							mesgBrand += "<option value='"+ key1+"'>"+ value2+"</option>";
+						}
+						else
+						{
+							mesgBrand += "<option value='"+ key1+"'>"+ value2+"</option>";
+						}
+						
 				   	});
 					$("#user_brand").html(mesgBrand);
 				});

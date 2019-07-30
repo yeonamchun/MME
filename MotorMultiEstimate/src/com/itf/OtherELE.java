@@ -9,6 +9,16 @@ import java.util.Set;
 public class OtherELE
 {
 
+	public static final HashMap<String, String> LOGIN_TYPE = new HashMap<String, String>()
+	{
+		{
+			put("0", "일반 사용자");
+			put("1", "사업자");
+			put("2", "관리자");
+		}
+	};
+	
+	
 	/**
 	 * 관리자 권한 페이지 
 	 */
