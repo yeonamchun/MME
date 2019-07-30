@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * github
- * @author yeo04
+ * @author yeo0419
  *
  */
 public class Util
