@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class MainServlet extends HttpServlet {
 
 	/**
-	 * goGet
+	 * goGet 이게 모니
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
