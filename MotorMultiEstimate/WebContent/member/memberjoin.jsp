@@ -90,7 +90,6 @@ $(document).ready(function(){
 		}
 	});
 	
-	
 	$("#user_mobile1").on("keyup", function(){checkNum(this);});
 	
 	$("#user_mobile2").on("keyup", function(){checkNum(this);});
