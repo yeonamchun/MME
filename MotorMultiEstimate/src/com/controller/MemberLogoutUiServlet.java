@@ -13,17 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.dto.UserDTO;
+import com.util.SessionMgmt;
 
 @WebServlet("/MemberLogoutUi")
 public class MemberLogoutUiServlet extends HttpServlet 
 {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		HttpSession session = request.getSession();
-		UserDTO uDTO = (UserDTO)session.getAttribute("uDTO");
+		SessionMgmt se = new SessionMgmt(request);
 		
 		String nextPath = "mainpage/memberlogout.jsp";
-		if(uDTO == null)
+		if(se.getUdto() == null)
 		{
 			nextPath = "MemberLoginUi";
 		}
@@ -34,7 +34,7 @@ public class MemberLogoutUiServlet extends HttpServlet
 			Date time = new Date();
 			SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			request.setAttribute("sessionEtime", form.format(time));
-			time.setTime(session.getCreationTime());
+			time.setTime(se.session.getCreationTime());
 			request.setAttribute("sessionStime", form.format(time));
 		}
 		

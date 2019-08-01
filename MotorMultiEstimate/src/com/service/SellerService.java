@@ -60,4 +60,32 @@ public class SellerService
 		return result;
 	}
 
+	public int sellerUpdate(UserDTO uDTO, SellerDTO sDTO) {
+		SqlSession session = JDBCSessionFactory.getSession();
+		
+		int result = 0;
+		
+		try
+		{
+			SellerDAO dao = new SellerDAO();
+			
+			result = dao.sellerUpdate(session, uDTO, sDTO);
+			
+			if(result > 0)
+			{
+				session.commit();
+			}
+			else
+			{
+				session.rollback();
+			}
+		}
+		finally
+		{
+			session.close();
+		}
+		
+		return result;
+	}
+
 }

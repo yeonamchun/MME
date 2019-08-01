@@ -23,5 +23,15 @@ public class SellerDAO
 		// TODO Auto-generated method stub
 		return session.selectOne("SellerMapper.checkSellernum", seller_num);
 	}
+	
+	public int sellerUpdate(SqlSession session, UserDTO uDTO, SellerDTO sDTO) {
+		
+		int num = session.insert("SellerMapper.sellerUpdate", sDTO);
+		if(num > 0)
+		{
+			num = session.insert("UserMapper.memberUpdate", uDTO);
+		}
+		return num;
+	}
 
 }

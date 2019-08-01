@@ -30,28 +30,6 @@ var util = new YeoUtil();
 
 $(document).ready(function(){
 	
-	$("#seller_num_overlap").on("click",function()
-	{
-		alert("aaaa");
-		var sellernum = $("#seller_num").val();
-		if(sellernum.length > 0)
-		{
-			util.getHttp("post","MemberUtil", "opt=3&seller_num="+sellernum, "text", function (data){
-				if(_data == "true")
-				{
-					alert("이미 있는 사업자 번호 입니다.");
-					$("#user_alias").val("");
-				}
-				else
-				{
-					alert("사용 가능한 사업자 번호 입니다.");
-					sellerAjaxCheck = true;
-				}
-			});
-		}
-	});
-	
-	
 	$("#user_mobile1").on("keyup", function(){checkNum(this);});
 	
 	$("#user_mobile2").on("keyup", function(){checkNum(this);});
@@ -120,6 +98,7 @@ $(document).ready(function(){
                             						if(seller_address2.length > 0)
                                     				{
                             							sendCheck = true;
+                            							
                                     				}else{alert("사업장 주소지를 입력 하세요");}	
                                 				}else{alert("사업장 주소지를 입력 하세요");}	
                             				}else{alert("사업장 이름을 입력 하세요");}	
@@ -154,28 +133,10 @@ $(document).ready(function(){
                	}else{alert("입력 하신 패스워드를 체크해 주세요!");}	
            	}else{alert("아이디를 입력 하세요!");}	
        	}
-        
-        if(!idAjaxCheck)
-       	{
-        	alert("아이디 중복 체크를 해 주세요!");
-        	sendCheck = false;
-       	}
-        
-        if(!aliasAjaxCheck)
-       	{
-        	alert("닉네임 중복 체크를 해 주세요!");
-        	sendCheck = false;
-       	}
-        
-       	if(!sellerAjaxCheck && seller_check == "1")
-       	{
-         	alert("사업자 번호 중복 체크를 해 주세요!");
-         	sendCheck = false;
-       	}
        	
     	if(sendCheck)
 		{
-			$("#userinfoform").attr("action", "MemberJoin");
+			$("#userinfoform").attr("action", "MemberInfo");
 			$("#userinfoform").attr("method", "post");
 			$("#userinfoform").submit();
 		}
@@ -261,6 +222,7 @@ $(document).ready(function(){
 	</tr>
 	
 	<input type="hidden" id="seller_check" name="seller_check" value="" />
+	<input type="hidden" id="opt" name="opt" value="1" />
 
 	<tr >
 		<td colspan="2">
@@ -268,8 +230,7 @@ $(document).ready(function(){
 				<tr>
 					<td style="text-align:right;width:180px;">사업자 번호&nbsp;:&nbsp;&nbsp;</td>
 					<td>
-						<input type="text" name="seller_num" id="seller_num" value="${sDTO.seller_num}" />
-						&nbsp;<input type="button" id="seller_num_overlap" value="중복체크" />
+						<input type="text" name="seller_num" id="seller_num" value="${sDTO.seller_num}" readonly />
 					</td>
 				</tr>
 				<tr>

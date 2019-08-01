@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.itf.OtherELE;
+import com.util.SessionMgmt;
 
 @WebServlet("/MemberLoginUi")
 public class MemberLoginUiServlet extends HttpServlet 
@@ -17,12 +18,25 @@ public class MemberLoginUiServlet extends HttpServlet
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		request.setAttribute("title", "로그인");
+		String nextPage = "mainpage/memberlogin.jsp";
 		
-		request.setAttribute("login_type", OtherELE.getJson(OtherELE.LOGIN_TYPE));
+		SessionMgmt se = new SessionMgmt(request);
 		
-		RequestDispatcher dis = request.getRequestDispatcher("mainpage/memberlogin.jsp");
+		if(se.getUdto() == null)
+		{
+			request.setAttribute("title", "로그인");
+			request.setAttribute("login_type", OtherELE.getJson(OtherELE.LOGIN_TYPE));
+			nextPage = "mainpage/memberlogin.jsp";
+		}
+		else
+		{
+			se.setUdto();
+			nextPage = "MemberInfoUi";
+		}
+		
+		RequestDispatcher dis = request.getRequestDispatcher(nextPage);
 		dis.forward(request, response);
+		
 	
 	}
 

@@ -13,23 +13,23 @@ import javax.servlet.http.HttpSession;
 import com.dto.UserDTO;
 import com.itf.CarELE;
 import com.itf.OtherELE;
+import com.util.SessionMgmt;
 
 @WebServlet("/MemberInfoUi")
 public class MemberInfoUiServlet extends HttpServlet 
 {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		
-		HttpSession session = request.getSession();
-		UserDTO uDTO = (UserDTO)session.getAttribute("uDTO");
+		SessionMgmt se = new SessionMgmt(request);
 		
 		String nextPath = "mainpage/memberinfo.jsp";
-		if(uDTO == null)
+		if(se.getUdto() == null)
 		{
 			nextPath = "MemberLoginUi";
 		}
 		else
 		{
+			se.setUdto();
 			request.setAttribute("title", "마이페이지");
 			request.setAttribute("area_info", OtherELE.getJson(OtherELE.AREA_ELE));
 			request.setAttribute("brand_info", OtherELE.getJson(CarELE.BRAND_ELE));

@@ -27,4 +27,12 @@ public class MemberDAO
 		return session.selectOne("UserMapper.login", param);
 	}
 
+	public int memberUpdate(SqlSession session, UserDTO uDTO) {
+		return session.update("UserMapper.memberUpdate", uDTO);
+	}
+
+	public UserDTO getSession(SqlSession session, String _Userid) {
+		return session.selectOne("UserMapper.checkUserid",_Userid);
+	}
+
 }

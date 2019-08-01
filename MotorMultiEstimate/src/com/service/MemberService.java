@@ -98,6 +98,51 @@ public class MemberService
 		
 		return result;
 	}
+
+	public int memberUpdate(UserDTO uDTO) {
+		SqlSession session = JDBCSessionFactory.getSession();
+		
+		int result = 0;
+		
+		try
+		{
+			MemberDAO dao = new MemberDAO();
+			result = dao.memberUpdate(session, uDTO);
+			
+			if(result > 0)
+			{
+				session.commit();
+			}
+			else
+			{
+				session.rollback();
+			}
+		}
+		finally
+		{
+			session.close();
+		}
+		
+		return result;
+	}
+
+	public UserDTO getSession(String _Userid) {
+		SqlSession session = JDBCSessionFactory.getSession();
+		
+		UserDTO result = null;
+		
+		try
+		{
+			MemberDAO dao = new MemberDAO();
+			result = dao.getSession(session, _Userid);
+		}
+		finally
+		{
+			session.close();
+		}
+		
+		return result;
+	}
 	
 	
 }

@@ -52,7 +52,8 @@
 				}
 				else
 				{
-					location.href = "MemberJoinUi";
+					alert("입력 하신 로그인 정보가 올바른지 확인 바랍니다.");
+					$("#user_id").focus();
 				}
 			});
 		});
