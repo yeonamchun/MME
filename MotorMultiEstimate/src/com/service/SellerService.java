@@ -54,7 +54,6 @@ public class SellerService
 		}
 		finally
 		{
-			result = null;
 			session.close();
 		}
 		

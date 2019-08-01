@@ -38,14 +38,17 @@
 				if(data == "0")
 				{
 					alert("일반 회원");
+					location.href = "MainPage";
 				}
 				else if(data == "1")
 				{
 					alert("판매자");
+					location.href = "MainPage";
 				}
 				else if(data == "2")
 				{
 					alert("관리자");
+					location.href = "MainPage";
 				}
 				else
 				{

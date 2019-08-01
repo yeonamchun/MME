@@ -11,9 +11,6 @@ import com.dto.MgmtDTO;
 
 public class MgmtService 
 {
-
-	
-	
 	public List<MgmtDTO> getMgmtpage(String manager_code) 
 	{
 		SqlSession session = JDBCSessionFactory.getSession();

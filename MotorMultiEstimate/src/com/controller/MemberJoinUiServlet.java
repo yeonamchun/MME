@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.dto.MgmtDTO;
 import com.dto.UserDTO;
 import com.itf.CarELE;
 import com.itf.OtherELE;
@@ -35,7 +36,7 @@ public class MemberJoinUiServlet extends HttpServlet {
 		 */
 		request.setAttribute("product_info", OtherELE.getJson(CarELE.NEW_CAR_ELE));
 		
-		
+	
 		RequestDispatcher dis = request.getRequestDispatcher("mainpage/memberjoin.jsp");
 		dis.forward(request, response);
 	}

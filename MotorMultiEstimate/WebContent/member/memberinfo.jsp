@@ -26,91 +26,26 @@ var idAjaxCheck = false;
 var aliasAjaxCheck = false;
 var sellerAjaxCheck = false;
 
-var util = new Util();
-
+var util = new YeoUtil();
 
 $(document).ready(function(){
 	
-	$("#idoverlap").on("click",function()
-	{
-		var userid = $("#user_id").val();
-		if(userid.length > 0)
-		{
-			
-			util.getHttp("post","MemberUtil", "opt=1&user_id="+userid, "text", function (data){
-				if(data == "true")
-				{
-					alert("이미 있는 아이디 입니다.");
-					$("#user_id").val("");
-				}
-				else
-				{
-					alert("사용 가능한 아이디 입니다.");
-					idAjaxCheck = true;
-				}
-			});
-				
-		}
-		
-	});
-	
-	$("#aliasoverlap").on("click",function()
-	{
-		var useralias = $("#user_alias").val();
-		if(useralias.length > 0)
-		{
-			$.ajax({
-				method:"post",
-				url:"MemberUtil",
-				data:{opt:2, user_alias:useralias},
-				dataType:"text", 
-				success:function(_data, _status, _xhr)
-				{
-					if(_data == "true")
-					{
-						alert("이미 있는 닉네임 입니다.");
-						$("#user_alias").val("");
-					}
-					else
-					{
-						alert("사용 가능한 닉네임 입니다.");
-						aliasAjaxCheck = true;
-					}
-				},
-				error:function(_xhr, _status, _error){
-					console.log("ERROR : "+_status);
-					console.log("ERROR : "+_error);
-				}
-			});
-		}
-	});
-	
 	$("#seller_num_overlap").on("click",function()
 	{
+		alert("aaaa");
 		var sellernum = $("#seller_num").val();
 		if(sellernum.length > 0)
 		{
-			$.ajax({
-				method:"post",
-				url:"MemberUtil",
-				data:{opt:3, seller_num:sellernum},
-				dataType:"text", 
-				success:function(_data, _status, _xhr)
+			util.getHttp("post","MemberUtil", "opt=3&seller_num="+sellernum, "text", function (data){
+				if(_data == "true")
 				{
-					if(_data == "true")
-					{
-						alert("이미 있는 사업자 번호 입니다.");
-						$("#user_alias").val("");
-					}
-					else
-					{
-						alert("사용 가능한 사업자 번호 입니다.");
-						sellerAjaxCheck = true;
-					}
-				},
-				error:function(_xhr, _status, _error){
-					console.log("ERROR : "+_status);
-					console.log("ERROR : "+_error);
+					alert("이미 있는 사업자 번호 입니다.");
+					$("#user_alias").val("");
+				}
+				else
+				{
+					alert("사용 가능한 사업자 번호 입니다.");
+					sellerAjaxCheck = true;
 				}
 			});
 		}
@@ -123,19 +58,9 @@ $(document).ready(function(){
 
 	$("#user_mobile3").on("keyup", function(){checkNum(this);});
 	
-	$("#seller_check_seller").on("click", function(){
-		$("#sellerMenu").show();
-	});
-	
-	$("#user_check_seller").on("click", function(){
-		$("#sellerMenu").hide();
-	});
-	
 	$("#formreset").click(function(){
 		$("#sellerMenu").hide();
 	});
-	
-	$("#sellerMenu").hide();
 	
 });	
 	
@@ -273,7 +198,7 @@ $(document).ready(function(){
 <form name="userinfoform" id="userinfoform" action="" method="">
 <table class="userjoininfo">
 	<tr>
-		<td style="text-align:right;width:180px;">아이디&nbsp;:&nbsp;&nbsp;</td><td><input type="text" name="user_id" id="user_id" value="${uDTO.user_id}" readonly />&nbsp;<input type="button" id="idoverlap" value="중복체크" /></td>
+		<td style="text-align:right;width:180px;">아이디&nbsp;:&nbsp;&nbsp;</td><td><input type="text" name="user_id" id="user_id" value="${uDTO.user_id}" readonly /></td>
 	</tr>
 	<tr>
 		<td style="text-align:right;width:180px;">암호&nbsp;:&nbsp;&nbsp;</td><td><input type="password" name="user_pw" id="user_pw" value="" /></td>
@@ -285,7 +210,7 @@ $(document).ready(function(){
 		<td style="text-align:right;width:180px;">이름&nbsp;:&nbsp;&nbsp;</td><td><input type="text" name="user_name" id="user_name" value="${uDTO.user_name}" /></td>
 	</tr>
 	<tr>
-		<td style="text-align:right;width:180px;">닉네임&nbsp;:&nbsp;&nbsp;</td><td><input type="text" id="user_alias" name="user_alias" value="${uDTO.user_alias}" />&nbsp;<input type="button" id="aliasoverlap" value="중복체크" /></td>
+		<td style="text-align:right;width:180px;">닉네임&nbsp;:&nbsp;&nbsp;</td><td><input type="text" id="user_alias" name="user_alias" value="${uDTO.user_alias}" readonly /></td>
 	</tr>
 	<tr>
 		<td style="text-align:right;width:180px;">전화번호&nbsp;:&nbsp;&nbsp;</td>
@@ -307,17 +232,10 @@ $(document).ready(function(){
 				
 				$(document).ready(function() {
 					$.each(orgArea,function(key,value){
-						if(${uDTO.user_address} == key)
-						{
-							mesgArea += "<option value='"+ key+"' selected>"+ value+"</option>";
-						}
-						else
-						{
-							mesgArea += "<option value='"+ key+"'>"+ value+"</option>";
-						}
-						
+						mesgArea += "<option value='"+ key+"'>"+ value+"</option>";
 				   	});
 					$("#user_address").html(mesgArea);
+					$("#user_address").val("${uDTO.user_address}");
 				});
 			</script>
 		</td>
@@ -331,62 +249,49 @@ $(document).ready(function(){
 			<script type="text/javascript">
 				var orgBrand = $.parseJSON('${brand_info}') ;
 				var mesgBrand = "";
-				
 				$(document).ready(function() {
 					$.each(orgBrand,function(key1,value2){
-						if(${uDTO.user_brand} == key1)
-						{
-							mesgBrand += "<option value='"+ key1+"'>"+ value2+"</option>";
-						}
-						else
-						{
-							mesgBrand += "<option value='"+ key1+"'>"+ value2+"</option>";
-						}
-						
+						mesgBrand += "<option value='"+ key1+"'>"+ value2+"</option>";
 				   	});
 					$("#user_brand").html(mesgBrand);
+					$("#user_brand").val("${uDTO.user_brand}");
 				});
 			</script>
 		</td>
 	</tr>
 	
-	<tr>
-		<td style="text-align:right;width:180px;">사용자 또는 Seller&nbsp;:&nbsp;&nbsp;</td>
-		<td>
-			사용자<input type="radio" id="user_check_seller" name="seller_check" value="0" checked="checked" />&nbsp;&nbsp;사업자<input type="radio" id="seller_check_seller" name="seller_check" value="1" />
-		</td>
-	</tr>
-	
+	<input type="hidden" id="seller_check" name="seller_check" value="" />
+
 	<tr >
 		<td colspan="2">
 			<table class="userjoininfo" id="sellerMenu">
 				<tr>
 					<td style="text-align:right;width:180px;">사업자 번호&nbsp;:&nbsp;&nbsp;</td>
 					<td>
-						<input type="text" name="seller_num" id="seller_num" value="" />
+						<input type="text" name="seller_num" id="seller_num" value="${sDTO.seller_num}" />
 						&nbsp;<input type="button" id="seller_num_overlap" value="중복체크" />
 					</td>
 				</tr>
 				<tr>
 					<td style="text-align:right;width:180px;">사업자 이름&nbsp;:&nbsp;&nbsp;</td>
 					<td>
-						<input type="text" name="seller_name" id="seller_name" value="" />
+						<input type="text" name="seller_name" id="seller_name" value="${sDTO.seller_name}" />
 					</td>
 				</tr>
 				<tr>
 					<td style="text-align:right;width:180px;">사업자 소재지&nbsp;:&nbsp;&nbsp;</td>
 					
 					<td>
-						<input type="text" name="seller_post" id="seller_post" value="" size="3" readonly />
-						&nbsp;<input type="button" onclick="sample4_execDaumPostcode()" id="" value="우편번호" />
+						<input type="text" name="seller_post" id="seller_post" value="${sDTO.seller_post}" size="3" readonly />
+						&nbsp;<input type="button" onclick="util.getPost('seller_post', 'seller_address1')" id="" value="우편번호" />
 					</td>
 				</tr>
 				
 				<tr>
 					<td style="text-align:right;width:180px;"></td>
 					<td>
-					<input type="text" name="seller_address1" id="seller_address1" value="" size="50" readonly />
-					<input type="text" name="seller_address2" id="seller_address2" value="" size="50" />
+					<input type="text" name="seller_address1" id="seller_address1" value="${sDTO.seller_address1}" size="50" readonly />
+					<input type="text" name="seller_address2" id="seller_address2" value="${sDTO.seller_address2}" size="50" />
 					</td>
 				</tr>
 				
@@ -404,6 +309,7 @@ $(document).ready(function(){
 									mesgProduct += "<option value='"+ key1+"'>"+ value2+"</option>";
 							   	});
 								$("#seller_product_type").html(mesgProduct);
+								$("#seller_product_type").val("${sDTO.seller_product_type}");
 							});
 						</script>
 					</td>
@@ -414,65 +320,29 @@ $(document).ready(function(){
 	<tr>
 		<td style="text-align:right;width:180px;"></td>
 		<td>
-			<input type="button" onclick="user_submit()" value="보내기" />&nbsp;&nbsp;<input type="button" onclick="user_reset()" value="취소" />
+			<input type="button" onclick="user_submit()" value="수정" />
 		</td>
 	</tr>
 	
 </table>
 </form>
+<c:if test="${!empty sDTO}">
+ 	<script>
+ 	$(document).ready(function() {
+ 		
+ 		$("#seller_check").val("1");
+ 		$("#sellerMenu").show();
+ 		
+ 		
+ 	});
+ 	</script>
+</c:if>  
 
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script>
-    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-    function sample4_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-                var extraRoadAddr = ''; // 도로명 조합형 주소 변수
-
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraRoadAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraRoadAddr !== ''){
-                    extraRoadAddr = ' (' + extraRoadAddr + ')';
-                }
-                // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-                if(fullRoadAddr !== ''){
-                    fullRoadAddr += extraRoadAddr;
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('seller_post').value = data.zonecode; //5자리 새우편번호 사용
-                document.getElementById('seller_address1').value = fullRoadAddr;
-                //document.getElementById('seller_address2').value = data.jibunAddress;
-                document.getElementById('seller_address2').focus();
-                //
-
-                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                if(data.autoRoadAddress) {
-                    //예상되는 도로명 주소에 조합형 주소를 추가한다.
-                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                    //document.getElementById('guide').innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-
-                } else if(data.autoJibunAddress) {
-                    var expJibunAddr = data.autoJibunAddress;
-                    //document.getElementById('guide').innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-
-                } else {
-                    //document.getElementById('guide').innerHTML = '';
-                }
-            }
-        }).open();
-    }
-</script>
+<c:if test="${empty sDTO}">
+ 	<script>
+ 	$(document).ready(function() {
+ 		$("#seller_check").val("0");
+ 		$("#sellerMenu").hide();
+ 	});
+ 	</script>
+</c:if>  

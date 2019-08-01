@@ -12,20 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.dao.MemberDAO;
+import com.dto.MgmtDTO;
 import com.dto.SellerDTO;
 import com.dto.UserDTO;
-import com.dto.MgmtDTO;
 import com.service.MemberService;
 import com.service.MgmtService;
 import com.service.SellerService;
+import com.yeoutil.Util;
 
 @WebServlet("/MemberUtil")
 public class MemberUtilServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		new Util("MemberUtilServlet");
+		
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/plain;charset=utf-8;");
 		PrintWriter out = response.getWriter();
@@ -34,6 +35,8 @@ public class MemberUtilServlet extends HttpServlet {
 		MemberService uService = new MemberService();
 		SellerService sService = new SellerService();
 		MgmtService mService = new MgmtService();
+		
+		
 		if(opt != null)
 		{
 			switch (opt)
@@ -55,6 +58,7 @@ public class MemberUtilServlet extends HttpServlet {
     				}
     				catch(Exception ex001)
     				{	
+    					Util.log.error(ex001.toString());
     				}
     				break;
     			case "2":
@@ -94,10 +98,10 @@ public class MemberUtilServlet extends HttpServlet {
     				}
     				catch(Exception ex001)
     				{	
+    					
     				}
     				break;
     			case "100":
-    
     				try
     				{
     					String logintype = request.getParameter("login_type");
@@ -117,9 +121,7 @@ public class MemberUtilServlet extends HttpServlet {
 						
 							if(logintype.equals("1") && uDTO.getSeller_num().length() > 0)
     						{
-							
 								SellerDTO sDTO = sService.checkSellernum(uDTO.getSeller_num() );
-    				
 								if(sDTO != null)
     							{
     								session.setAttribute("sDTO", sDTO);
@@ -147,7 +149,6 @@ public class MemberUtilServlet extends HttpServlet {
     						{
     							out.print("0");
     						}
-    						
         				}
         				else
         				{
@@ -158,6 +159,26 @@ public class MemberUtilServlet extends HttpServlet {
     				{	
     				}
     				break;		
+    				
+    			case "200":
+    				try
+    				{
+    					HttpSession session = request.getSession();
+    					try
+    					{
+    						session.invalidate();
+    						out.print("true");
+    					}
+    					catch(Exception ex001)
+    					{
+    						out.print("false");
+    					}
+    				}
+    				catch(Exception ex001)
+    				{	
+    					Util.log.error(ex001.toString());
+    				}
+    				break;
 			}
 		}
 		else
@@ -167,15 +188,10 @@ public class MemberUtilServlet extends HttpServlet {
 		
 		out.flush();
 		
-		
-		
-		
-		
-	
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		doGet(request, response);
 	}
 
