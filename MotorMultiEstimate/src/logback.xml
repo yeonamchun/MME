@@ -28,7 +28,7 @@
 	</appender>
 
 	<!-- root 로거 기본 설정 -->
-	<root level="TRACE">
+	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="DAILYOUT" />
 	</root>

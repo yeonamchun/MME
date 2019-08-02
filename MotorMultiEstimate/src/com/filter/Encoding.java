@@ -12,17 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.yeoutil.Util;
+
 /**
  * Servlet Filter implementation class Encoding
  */
 public class Encoding implements Filter {
-
    
-	public void destroy() {
+	public void destroy()
+	{
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException 
 	{
+		Util util = new Util(this.getClass());
 		
 		request.setCharacterEncoding("utf-8");
 		
@@ -35,11 +38,12 @@ public class Encoding implements Filter {
 	    
 	    if ( session == null || session.getAttribute("uDTO") == null )
 	    {
-	    	System.out.println(">>>>>>>>>> [ "+req.getServletPath()+" ] Login  Session LOGOUT <<<<<<<<<<");
+	    	
+	    	util.log(">>>>>>>>>> [ "+req.getServletPath()+" ] Login  Session LOGOUT <<<<<<<<<<");
 	    }
 	    else
 	    {
-	    	System.out.println(">>>>>>>>>> [ "+req.getServletPath()+" ] "+session.getAttribute("uDTO").toString()+" Login  Session LOGIN <<<<<<<<<<");
+	    	util.log(">>>>>>>>>> [ "+req.getServletPath()+" ] Login  Session LOGIN <<<<<<<<<< "+session.getAttribute("uDTO").toString());
 	    }
 	    
 	    chain.doFilter(request, response);

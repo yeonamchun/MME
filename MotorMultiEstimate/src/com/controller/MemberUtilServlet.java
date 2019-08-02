@@ -27,7 +27,7 @@ public class MemberUtilServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		new Util("MemberUtilServlet");
+		new Util(this.getClass());
 		
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/plain;charset=utf-8;");

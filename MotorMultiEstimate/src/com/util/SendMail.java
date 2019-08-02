@@ -80,7 +80,7 @@ public class SendMail
 			Transport.send(msg); //메일 보내기
 			result = true;
 			
-			callbackboolean.bool(result);
+			callbackboolean.result(result);
 		}
 		catch(MessagingException ex)
 		{
