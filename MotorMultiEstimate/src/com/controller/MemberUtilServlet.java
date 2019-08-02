@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.dto.MgmtDTO;
 import com.dto.SellerDTO;
 import com.dto.UserDTO;
-import com.filter.CallBackBoolean;
+import com.itf.CallBackBoolean;
 import com.service.MemberService;
 import com.service.MgmtService;
 import com.service.SellerService;
