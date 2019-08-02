@@ -11,6 +11,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 
+import com.filter.CallBackBoolean;
+
 public class SendMail 
 {
 	private static final String HOST = "smtp.naver.com";
