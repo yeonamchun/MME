@@ -18,6 +18,8 @@ import com.dto.UserDTO;
 import com.service.MemberService;
 import com.service.MgmtService;
 import com.service.SellerService;
+import com.util.CallBackBoolean;
+import com.util.SendMail;
 import com.yeoutil.Util;
 
 @WebServlet("/MemberUtil")
@@ -35,6 +37,8 @@ public class MemberUtilServlet extends HttpServlet {
 		MemberService uService = new MemberService();
 		SellerService sService = new SellerService();
 		MgmtService mService = new MgmtService();
+		
+		SendMail mail = new SendMail(getServletContext().getInitParameter("emailID"), getServletContext().getInitParameter("emailPASS"));
 		
 		
 		if(opt != null)
@@ -61,6 +65,7 @@ public class MemberUtilServlet extends HttpServlet {
     					Util.log.error(ex001.toString());
     				}
     				break;
+    				
     			case "2":
     				try
     				{
@@ -80,8 +85,8 @@ public class MemberUtilServlet extends HttpServlet {
     				{	
     				}
     				break;
-    			case "3":
     				
+    			case "3":
     				try
     				{
     					String seller_num = request.getParameter("seller_num");
@@ -101,6 +106,7 @@ public class MemberUtilServlet extends HttpServlet {
     					
     				}
     				break;
+    				
     			case "100":
     				try
     				{
@@ -118,7 +124,23 @@ public class MemberUtilServlet extends HttpServlet {
     						HttpSession session = request.getSession();
     						uDTO.setUser_pw(null);
 							session.setAttribute("uDTO", uDTO);
-						
+							
+							mail.send(
+								"MME 관리자", 
+								uDTO.getUser_name()+"님 방문을 환영 합니다.", 
+								"yeo0419@gmail.com", 
+								"안녕 하세요 고객님 즐거운 하우 되세요!", 
+								(boolean result)->{
+									if(result)
+									{
+										Util.log.info("메일 전송 완료");
+									}
+									else
+									{
+										Util.log.info("메일 전송 실패");
+									}
+								});
+							
 							if(logintype.equals("1") && uDTO.getSeller_num().length() > 0)
     						{
 								SellerDTO sDTO = sService.checkSellernum(uDTO.getSeller_num() );

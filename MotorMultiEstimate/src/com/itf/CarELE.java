@@ -54,7 +54,6 @@ public class CarELE
 			put("TD", "소형화물");
 		}
 	};
-	
 
 	/**
 	 * 자동차 크기 소형
@@ -123,7 +122,6 @@ public class CarELE
 		}
 	};
 	
-	
 	/**
 	 * 과급방식
 	 */
@@ -160,9 +158,5 @@ public class CarELE
 			put("NC2", "중고차");
 			put("NC3", "신차/중고차");
 		}
-	};
-	
-	
-	
-	
+	};	
 }

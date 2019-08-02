@@ -23,6 +23,7 @@ public class Encoding implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException 
 	{
+		
 		request.setCharacterEncoding("utf-8");
 		
 		HttpServletRequest req = (HttpServletRequest) request;
@@ -32,13 +33,13 @@ public class Encoding implements Filter {
 	    
 	    HttpSession session = req.getSession(false);
 	    
-	    if ( session == null || session.getAttribute("login") == null )
+	    if ( session == null || session.getAttribute("uDTO") == null )
 	    {
 	    	System.out.println(">>>>>>>>>> [ "+req.getServletPath()+" ] Login  Session LOGOUT <<<<<<<<<<");
 	    }
 	    else
 	    {
-	    	System.out.println(">>>>>>>>>> [ "+req.getServletPath()+" ] Login  Session LOGIN <<<<<<<<<<");
+	    	System.out.println(">>>>>>>>>> [ "+req.getServletPath()+" ] "+session.getAttribute("uDTO").toString()+" Login  Session LOGIN <<<<<<<<<<");
 	    }
 	    
 	    chain.doFilter(request, response);

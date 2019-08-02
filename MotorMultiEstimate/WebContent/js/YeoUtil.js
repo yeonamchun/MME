@@ -1,5 +1,4 @@
 
-
 YeoUtil = function()
 {
 	this.ajaxRequest = new XMLHttpRequest();
