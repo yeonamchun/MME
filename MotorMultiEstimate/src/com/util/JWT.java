@@ -3,13 +3,9 @@ package com.util;
 import java.security.Key;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
-
-import com.yeoutil.Util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -71,6 +67,13 @@ public class JWT {
     	return result;
     }
     
+    /**
+     * 토큰 생성
+     * @param _id
+     * @param _ttlMillis
+     * @return
+     * @throws Exception
+     */
     public String encrypt(String _id,long _ttlMillis) throws Exception
     {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
@@ -96,6 +99,11 @@ public class JWT {
         return builder.compact();
     }
    
+    /**
+     * 사용자 session 체크
+     * @param _jwt
+     * @return
+     */
     public static boolean getSession(String _jwt)
     {
     	boolean result = false;
@@ -124,6 +132,12 @@ public class JWT {
     	return result;
     }
     
+    /**
+     * 본문 해독
+     * @param _jwt
+     * @return
+     * @throws Exception
+     */
     public static Claims decrypt(String _jwt) throws Exception
     {
         Claims claims = Jwts.parser()
