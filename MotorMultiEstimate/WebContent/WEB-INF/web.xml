@@ -11,6 +11,7 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  
   <context-param>
     <param-name>emailID</param-name>
     <param-value>yeonamchun</param-value>
@@ -19,4 +20,6 @@
     <param-name>emailPASS</param-name>
     <param-value>Loolloocom1</param-value>
   </context-param>
+
+
 </web-app>
