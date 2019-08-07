@@ -16,9 +16,20 @@
     <param-name>emailID</param-name>
     <param-value>yeonamchun</param-value>
   </context-param>
+
   <context-param>
     <param-name>emailPASS</param-name>
     <param-value>Loolloocom1</param-value>
+  </context-param>
+
+ <context-param>
+    <param-name>sessionTime</param-name>
+    <param-value>5</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>aes128</param-name>
+    <param-value>3hs3ds3433282ejD</param-value>
   </context-param>
 
 

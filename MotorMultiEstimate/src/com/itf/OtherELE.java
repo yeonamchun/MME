@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.json.simple.JSONObject;
+
 public class OtherELE
 {
 
@@ -84,9 +86,9 @@ public class OtherELE
 	
 	public static String getJson(HashMap<String, String> _ele)
 	{ 
-		StringBuilder result = new StringBuilder();
+		
+		JSONObject result = new JSONObject();
 	
-		result.append("{");
 		Iterator<String> keys = _ele.keySet().iterator();
 		boolean check = true;
 		
@@ -94,21 +96,32 @@ public class OtherELE
 		{
 			String key = keys.next();
 			String value = _ele.get(key);
-			if(check)
-			{
-				result.append("\""+key+"\":\""+value+"\"");
-				check = false;
-			}
-			else
-			{
-				result.append(",\""+key+"\":\""+value+"\"");
-			}	
+			
+			result.put(key, value);	
 		}
-		
-		result.append("}");
 		
 		return result.toString();
 	}
+	
+	public static JSONObject getJsonObj(HashMap<String, String> _ele)
+	{ 
+		
+		JSONObject result = new JSONObject();
+	
+		Iterator<String> keys = _ele.keySet().iterator();
+		boolean check = true;
+		
+		while( keys.hasNext() )
+		{
+			String key = keys.next();
+			String value = _ele.get(key);
+			result.put(key, value);	
+		}
+		
+		return result;
+	}
+	
+	
 	
 	
 	public static List<String> getKeys(HashMap<String, String> _ele)

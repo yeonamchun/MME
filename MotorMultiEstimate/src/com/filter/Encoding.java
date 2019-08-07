@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+
+import com.itf.ErrorCode;
+import com.util.JWT;
 import com.yeoutil.Util;
 
 /**
@@ -31,27 +35,39 @@ public class Encoding implements Filter {
 		
 		HttpServletRequest req = (HttpServletRequest) request;
 	    HttpServletResponse res = (HttpServletResponse)response ;
-	
 	    res.setHeader("Access-Control-Allow-Origin", "*");	
 	    
-	    HttpSession session = req.getSession(false);
+	    String toknen = req.getParameter("toknen");
 	    
-	    if ( session == null || session.getAttribute("uDTO") == null )
-	    {
-	    	
-	    	util.log(">>>>>>>>>> [ "+req.getServletPath()+" ] Login  Session LOGOUT <<<<<<<<<<");
-	    }
+	    if(toknen != null)
+		{
+	    	try
+	    	{
+	    		JSONObject json = JWT.getJson(toknen);
+	    		
+	    		if(json != null)
+				{
+					request.setAttribute("mmtLogin", true);
+					util.log("request.getAttribute(\"mmtLogin\")  true");
+				}
+				else
+				{
+					request.setAttribute("mmtLogin", false);
+					util.log("request.getAttribute(\"mmtLogin\")  false");
+				}
+	    	}
+	    	catch(Exception ex001) {}
+		}
 	    else
 	    {
-	    	util.log(">>>>>>>>>> [ "+req.getServletPath()+" ] Login  Session LOGIN <<<<<<<<<< "+session.getAttribute("uDTO").toString());
+	    	request.setAttribute("mmtLogin", false);
 	    }
 	    
 	    chain.doFilter(request, response);
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException
-	{
-		
+	{	
 	}
 
 }

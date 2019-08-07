@@ -9,12 +9,10 @@ import org.json.simple.JSONObject;
 import com.itf.ErrorCode;
 import com.yeoutil.Util;
 
-import io.jsonwebtoken.Claims;
-
 public class JsonResult 
 {
 	JSONObject resultJson;
-	JSONArray result_date;
+	JSONArray result_date = new JSONArray();
 
 	Util util;
 	
@@ -24,7 +22,6 @@ public class JsonResult
 	public JsonResult()
 	{
 		util = new Util(this.getClass());
-		result_date = new JSONArray();
 		setInit();
 	}
 	
@@ -68,7 +65,6 @@ public class JsonResult
 		{
 			resultJson.remove("error_code"); 
 			resultJson.put("error_code", _key);
-			
 			resultJson.remove("error_msg"); 
 			resultJson.put("error_msg", ErrorCode.getMsg(_key));
 			
@@ -109,7 +105,7 @@ public class JsonResult
 	 * @param _token
 	 * @return Boolean
 	 */
-	public boolean setToken(String userId, HashMap<String, String> _map)
+	public boolean setToken(String _toknen)
 	{
 		boolean result = false;
 		try
@@ -117,17 +113,7 @@ public class JsonResult
 			resultJson.remove("result_toknen"); 
 			try 
 			{
-				JWT jwt = new JWT("MMT", "login");
-			
-				Iterator<String> keys = _map.keySet().iterator();
-				while( keys.hasNext() )
-				{
-					String key = keys.next();
-					String value = _map.get(key);
-					jwt.addParam(key, value);
-				}
-		        resultJson.put("result_toknen", jwt.encrypt(userId, 600000));
-		    
+		        resultJson.put("result_toknen", _toknen);
 		        result = true;
 		 	}
 			catch (Exception e)
@@ -135,7 +121,6 @@ public class JsonResult
 				resultJson.remove("result_toknen"); 
 				resultJson.put("result_toknen", "");
 			}
-			
 		}
 		catch(Exception ex001)
 		{
@@ -150,7 +135,7 @@ public class JsonResult
 	 * @param _data
 	 * @return Boolean
 	 */
-	public boolean addData(JSONObject _data)
+	public boolean addDataJson(JSONObject _data)
 	{
 		boolean result = false;
 		try
@@ -162,19 +147,64 @@ public class JsonResult
 		{
 			util.log(ex001);
 		}
-		
 		return result;
 	}
 	
-	public boolean addData(String _key, Object _obj)
+	/**
+	 * 사용자 정의 정보 입력
+	 * @param _data HashMap<String, Object> key value
+	 * @return
+	 */
+	public int addData(HashMap<String, Object> _data)
 	{
-		boolean result = false;
+		int result = 0;
 		try
 		{
 			JSONObject temp = new JSONObject();
-			temp.put(_key, _obj.toString());
+			
+			Iterator<String> keys = _data.keySet().iterator();
+			
+			while( keys.hasNext() )
+			{
+				String _key = keys.next();
+				Object _obj = _data.get(_key);
+			
+				try
+				{
+					int tempData = Integer.parseInt(_obj.toString());
+					temp.put(_key, tempData);
+				}
+				catch(Exception ex001)
+				{
+					try
+					{
+						double tempData = Double.parseDouble(_obj.toString());
+						temp.put(_key, tempData);
+					}
+					catch(Exception ex002)
+					{
+						try
+						{
+							double tempData = Long.parseLong(_obj.toString());
+							temp.put(_key, tempData);
+						}
+						catch(Exception ex003)
+						{
+							try
+							{
+								boolean tempData = Boolean.parseBoolean(_obj.toString().toLowerCase());
+								temp.put(_key, tempData);
+							}
+							catch(Exception ex004)
+							{
+								temp.put(_key, String.valueOf(_obj));
+							}
+						}
+					}
+				}
+				result++;
+			}
 			result_date.add(temp);
-			result = true;
 		}
 		catch(Exception ex001)
 		{
@@ -183,6 +213,7 @@ public class JsonResult
 		
 		return result;
 	}
+	
 	
 	
 	
