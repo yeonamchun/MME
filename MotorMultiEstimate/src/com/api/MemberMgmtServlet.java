@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
+import com.controller.MemberInfoServlet;
 import com.dto.MgmtDTO;
 import com.dto.SellerDTO;
 import com.dto.UserDTO;
@@ -92,7 +93,7 @@ public class MemberMgmtServlet extends HttpServlet
 								json.setStatus(false);
 				        	}
 				        }
-				        else	// 사업자
+				        else	if(seller_check.equals("1"))// 사업자
 				        {
 				        	SellerService sService = new SellerService();
 				        	
@@ -111,7 +112,7 @@ public class MemberMgmtServlet extends HttpServlet
 				            		seller_product_type
 				            		);
 				            
-				            uDTO.setSeller_num(seller_num);
+				            uDTO.setSeller_num(seller_num); // 사업자 코드 를 변경 한다.
 				            
 				            int checkNum = sService.sellerJoin(uDTO, sDTO);
 				            
@@ -132,14 +133,95 @@ public class MemberMgmtServlet extends HttpServlet
 					{}
 					
 					break;
+		
+				case "update":	// 
 					
-					
-				case "1":	// 
-					
-					
+					try 
+					{
+						String toknen = request.getParameter("toknen");
+						
+						if(toknen != null)
+						{
+							String tempID = JWT.getId(toknen);
+							
+							if(tempID != null)
+							{
+								String user_id = tempID;
+								String user_pw = aes.Enc(request.getParameter("user_pw"));
+								String user_name = request.getParameter("user_name");
+								String user_alias = request.getParameter("user_alias");
+								String user_mobile1 = request.getParameter("user_mobile1");
+								String user_mobile2 = request.getParameter("user_mobile2");
+								String user_mobile3 = request.getParameter("user_mobile3");
+								String user_address = request.getParameter("user_address");
+								String user_brand = request.getParameter("user_brand");
+								
+								UserDTO uDTO = new UserDTO(user_id, user_pw, user_name, user_alias, 
+						        		user_mobile1, 
+						        		user_mobile2, 
+						        		user_mobile3, 
+						        		user_address, 
+						        		user_brand);
+								
+								
+								MemberService uService = new MemberService();
+								
+								String seller_check = request.getParameter("seller_check").trim();
+								
+								if(seller_check.equals("0"))
+								{
+									int checkNum = uService.memberUpdate(uDTO);
+									
+									if(checkNum > 0 ) // 사용자 수정 완료
+									{
+										json.setError(ErrorCode.EX0544);
+										json.setStatus(true);
+									}
+									else // 사용자 수정 실패
+									{
+										json.setError(ErrorCode.EX0545);
+										json.setStatus(false);
+									}
+								}
+								else 	if(seller_check.equals("1"))// 사업자
+								{
+									String seller_num = request.getParameter("seller_num");
+						            String seller_name = request.getParameter("seller_name");
+						            String seller_post = request.getParameter("seller_post");
+						            String seller_address1 = request.getParameter("seller_address1");
+						            String seller_address2 = request.getParameter("seller_address2");
+						            String seller_product_type = request.getParameter("seller_product_type");
+						            
+						            SellerDTO sDTO = new SellerDTO(
+						            		seller_num, 
+						            		seller_name, 
+						            		seller_post, 
+						            		seller_address1, 
+						            		seller_address2, 
+						            		seller_product_type
+					            	);
+						            
+						            SellerService sService = new SellerService();
+						            
+						            int checkNum = sService.sellerUpdate(uDTO, sDTO);
+						            
+						            if(checkNum > 0 )
+						            {
+						            	json.setError(ErrorCode.EX0546);
+										json.setStatus(true);
+						            }
+						            else
+					            	{
+						            	json.setError(ErrorCode.EX0547);
+										json.setStatus(false);
+					            	}
+								}
+							}
+						}
+					}
+					catch(Exception ex001)
+					{}
 					break;
-					
-				
 			}
 		}
 		else

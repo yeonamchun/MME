@@ -36,11 +36,10 @@ import com.yeoutil.Util;
 @WebServlet("/Member")
 public class MemberServlet extends HttpServlet 
 {
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		Util util = new Util(this.getClass());
-		AES128 aes = new AES128(getServletContext().getInitParameter("aes128"));
+		AES128 aes = new AES128(getServletContext().getInitParameter("aes128").trim());
 	
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json;charset=utf-8");
@@ -107,39 +106,7 @@ public class MemberServlet extends HttpServlet
 					}
 					
 					break;
-				case "area_ele":	// 사용자 지역
-					
-					try 
-					{
-						json.setError(ErrorCode.EX0200);
-						json.addDataJson( OtherELE.getJsonObj(OtherELE.AREA_ELE) );
-						json.setStatus(true);
-					} 
-					catch(Exception ex001){}
-					
-					break;
-				case "brand_ele":	// 자동차 브랜드
-					
-					try 
-					{
-						json.setError(ErrorCode.EX0200);
-						json.addDataJson( OtherELE.getJsonObj(CarELE.BRAND_ELE) );
-						json.setStatus(true);
-					} 
-					catch(Exception ex001){}
-					
-					break;	
-				case "new_car_ele":	// 자동차 판매
-					
-					try 
-					{
-						json.setError(ErrorCode.EX0200);
-						json.addDataJson( OtherELE.getJsonObj(CarELE.NEW_CAR_ELE) );
-						json.setStatus(true);
-					} 
-					catch(Exception ex001){}
-					
-					break;	
+				
 				case "1":	// 아이디 중복 체크
 					
 					try 
@@ -255,11 +222,12 @@ public class MemberServlet extends HttpServlet
 						
 						String logintype = request.getParameter("login_type");
 						String userid = request.getParameter("user_id");
-						String userpw = request.getParameter("user_pw");
+						String userpw = aes.Enc(request.getParameter("user_pw"));
+						util.log("userpw >>>>>>>>>>>>"+userpw);
 						
 						HashMap<String, String> param = new HashMap<String, String>();
     					param.put("user_id", userid);
-    					param.put("user_pw", aes.Enc(userpw));
+    					param.put("user_pw", userpw);
     					
     					UserDTO uDTO = uService.login(param);
     					if(uDTO != null )

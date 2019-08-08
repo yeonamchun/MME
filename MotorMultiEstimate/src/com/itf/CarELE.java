@@ -6,13 +6,13 @@ public class CarELE
 {
 	
 	/**
-	 * 제품 제조 회사 
+	 * 제품 제조  나라 
 	 */
 	public static final HashMap<String, String> MADE_IN_TYPE_ELE = new HashMap<String, String>()
 	{
 		{
-			put("M1", "국내");
-			put("M2", "수입");
+			put("MA", "국내");
+			put("MB", "수입");
 		}
 	};
 	

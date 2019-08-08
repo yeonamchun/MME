@@ -48,12 +48,10 @@ public class Encoding implements Filter {
 	    		if(json != null)
 				{
 					request.setAttribute("mmtLogin", true);
-					util.log("request.getAttribute(\"mmtLogin\")  true");
 				}
 				else
 				{
 					request.setAttribute("mmtLogin", false);
-					util.log("request.getAttribute(\"mmtLogin\")  false");
 				}
 	    	}
 	    	catch(Exception ex001) {}

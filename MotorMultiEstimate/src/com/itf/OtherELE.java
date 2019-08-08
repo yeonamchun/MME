@@ -3,8 +3,13 @@ package com.itf;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
-
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.Collections;
+import java.util.Comparator;
 import org.json.simple.JSONObject;
 
 public class OtherELE
@@ -105,22 +110,28 @@ public class OtherELE
 	
 	public static JSONObject getJsonObj(HashMap<String, String> _ele)
 	{ 
-		
 		JSONObject result = new JSONObject();
 	
-		Iterator<String> keys = _ele.keySet().iterator();
-		boolean check = true;
+		Set<HashMap.Entry<String, String>> entry = _ele.entrySet();
 		
-		while( keys.hasNext() )
-		{
-			String key = keys.next();
-			String value = _ele.get(key);
-			result.put(key, value);	
-		}
-		
+		Comparator<HashMap.Entry<String, String>> comparator = new Comparator<HashMap.Entry<String, String>>() {
+	        @Override
+	        public int compare(HashMap.Entry<String, String> o1, HashMap.Entry<String, String> o2) {
+	            String value1 = o1.getValue();
+	            String value2 = o2.getValue();
+	            return value1.compareTo(value2);
+	        }
+	    };
+	    
+	    SortedSet<HashMap.Entry<String, String>> sortedSet = new TreeSet(comparator);
+	    sortedSet.addAll(entry);
+	    
+	    for(HashMap.Entry<String, String> entry1 : sortedSet ){
+	    	result.put(entry1.getKey(), entry1.getValue());	
+	    }
+	    
 		return result;
 	}
-	
 	
 	
 	

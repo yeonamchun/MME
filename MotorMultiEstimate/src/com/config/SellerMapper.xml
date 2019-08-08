@@ -45,11 +45,13 @@
 <update id="sellerUpdate"  parameterType="SellerDTO">
 
 	UPDATE SELLER_INFO set
+		
 		seller_name=#{seller_name}, 
 		seller_post=#{seller_post}, 
 		seller_address1=#{seller_address1}, 
 		seller_address2=#{seller_address2}, 
 		seller_product_type=#{seller_product_type}
+	
 	WHERE seller_num = #{seller_num}
 	
 </update>

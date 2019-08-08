@@ -49,6 +49,22 @@ public class ErrorCode
 	public static final String EX0201 = "EX0201";
 	
 	
+	
+	
+	/*** 사용자 정보 수정 완료 */
+	public static final String EX0544 = "EX0544";
+	
+	/*** 사용자 정보 수정 실패 */
+	public static final String EX0545 = "EX0545";
+	
+	/*** 사업자 정보 수정 완료 */
+	public static final String EX0546 = "EX0546";
+	
+	/*** 사업자 정보 수정 실패 */
+	public static final String EX0547 = "EX0547";
+	
+	
+	
 	/*** 에러코드 */
 	private static final HashMap<String, String> CODE = new HashMap<String, String>()
 	{
@@ -71,6 +87,12 @@ public class ErrorCode
 			
 			put(EX0542, "사업자 정보 저장 완료");
 			put(EX0543, "사업자 정보 저장 실패");
+			
+			put(EX0544, "사용자 정보 수정 완료");
+			put(EX0545, "사용자 정보 수정 실패");
+			
+			put(EX0546, "사업자 정보 수정 완료");
+			put(EX0547, "사업자 정보 수정 실패");
 		}
 	};
 	
